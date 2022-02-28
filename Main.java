@@ -1,5 +1,7 @@
 public class Main {
-
+ 
+    public static int backtracks;
+    
     public static int[][] findBoardArrangement(int[][] _board, int placedQueenCount)
     {
         int[][] board = cloneBoard(_board);
@@ -11,6 +13,7 @@ public class Main {
                 {
                     int[][] _tempBoard = cloneBoard(_board);
                     placeQueen(_tempBoard, x, y);
+                    ++backtracks;
                     ++placedQueenCount;
                     if(checkBoard(_tempBoard) == true)
                     {
@@ -30,10 +33,10 @@ public class Main {
                 }
             }
         }
-
+ 
         return null;
     }
-
+ 
     public static boolean checkBoard(int[][] _board)
     {
         for (int y = 0; y < 8; ++y)
@@ -48,11 +51,13 @@ public class Main {
         }
         return true;
     }
-
+ 
     public static void placeQueen(int[][] _board, int posX, int posY)
     {
-        _board[posY][posX] = 2;
-
+        if(_board[posY][posX] != 1)
+        {
+            _board[posY][posX] = 2;
+ 
         int endFlag = 0;
         int x = 0, y = 0;
         while(endFlag != 8)
@@ -125,8 +130,9 @@ public class Main {
             ++x;
             ++y;
         }
+        }
     }
-
+ 
     public static int[][] cloneBoard(int[][] _board)
     {
         int[][] board = new int[8][8];
@@ -137,10 +143,10 @@ public class Main {
                 board[y][x] = _board[y][x];
             }
         }
-
+ 
         return board;
     }
-
+ 
     public static void debug_drawBoard(int[][] _board)
     {
         for (int y = 0; y < 8; ++y)
@@ -152,14 +158,15 @@ public class Main {
             System.out.print('\n');
         }
     }
-
+ 
     public static void main(String[] args)
     {
         int[][] board = new int[8][8];
-
+ 
         debug_drawBoard(board);
-
+ 
         board = findBoardArrangement(board, 0);
         debug_drawBoard(board);
+        System.out.println(backtracks + " backtracks");
     }
 }
